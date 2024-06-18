@@ -1,8 +1,12 @@
+using Microsoft.EntityFrameworkCore;
+using Out_of_Office.Infrastructure.Presistance;
+using Out_of_Office.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
+
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
-
+builder.Services.AddInfrastructure(builder.Configuration);
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
