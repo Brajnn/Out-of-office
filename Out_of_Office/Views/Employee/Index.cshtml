@@ -1,0 +1,29 @@
+﻿@model List<Out_of_Office.Application.Employee.EmployeeDto>
+
+<h2>Employees</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Full Name</th>
+            <th>Subdivision</th>
+            <th>Position</th>
+            <th>Status</th>
+            <th>Out of Office Balance</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var employee in Model)
+        {
+            <tr>
+                <td>@employee.Id</td>
+                <td>@employee.FullName</td>
+                <td>@employee.Subdivision</td>
+                <td>@employee.Position</td>
+                <td>@employee.Status</td>
+                <td>@employee.OutOfOfficeBalance</td>
+            </tr>
+        }
+    </tbody>
+</table>

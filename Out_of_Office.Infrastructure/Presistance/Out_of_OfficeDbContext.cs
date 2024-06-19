@@ -49,6 +49,7 @@ namespace Out_of_Office.Infrastructure.Presistance
                       .HasDefaultValue(0);
 
                 entity.Property(e => e.Photo)
+                      .IsRequired(false)
                       .HasColumnType("varbinary(max)");
             });
 

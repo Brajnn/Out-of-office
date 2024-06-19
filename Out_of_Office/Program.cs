@@ -1,12 +1,16 @@
 using Microsoft.EntityFrameworkCore;
 using Out_of_Office.Infrastructure.Presistance;
 using Out_of_Office.Infrastructure.Extensions;
+using Out_of_Office.Application.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(options =>
+options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true);
+
 builder.Services.AddInfrastructure(builder.Configuration);
+builder.Services.AddAplication();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
