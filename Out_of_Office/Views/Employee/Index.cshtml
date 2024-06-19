@@ -2,15 +2,37 @@
 
 <h2>Employees</h2>
 
+<p>
+    @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
+    {
+    <p>
+        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+    }
+</p>
+
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Full Name</th>
-            <th>Subdivision</th>
-            <th>Position</th>
-            <th>Status</th>
-            <th>Out of Office Balance</th>
+            <th>
+                @Html.ActionLink("ID", "Index", new { sortOrder = ViewBag.IdSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.NameSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Subdivision", "Index", new { sortOrder = ViewBag.SubdivisionSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Position", "Index", new { sortOrder = ViewBag.PositionSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
+            <th>
+                @Html.ActionLink("Out of Office Balance", "Index", new { sortOrder = ViewBag.OutOfOfficeBalanceSortParm, searchString = ViewBag.CurrentFilter })
+            </th>
         </tr>
     </thead>
     <tbody>
