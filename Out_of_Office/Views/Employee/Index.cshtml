@@ -49,6 +49,15 @@
                 <td>@employee.Position</td>
                 <td>@employee.Status</td>
                 <td>@employee.OutOfOfficeBalance</td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post" style="display:inline;">
+                        <input type="hidden" name="id" value="@employee.Id" />
+                        <input type="hidden" name="isActive" value="@(employee.Status == "Active" ? "false" : "true")" />
+                        <button type="submit" class="btn @(employee.Status == "Active" ? "btn-danger" : "btn-success")">
+                            @(employee.Status == "Active" ? "Deactivate" : "Activate")
+                        </button>
+                    </form>
+                </td>
             </tr>
         }
     </tbody>

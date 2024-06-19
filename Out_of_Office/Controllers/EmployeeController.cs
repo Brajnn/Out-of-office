@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Out_of_Office.Application.Employee;
 using Out_of_Office.Application.Employee.Command.CreateEmployee;
+using Out_of_Office.Application.Employee.Command.UpdateEmployeeStatus;
 using Out_of_Office.Application.Employee.Queries.GetAllEmployees;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Out_of_Office.Controllers
@@ -67,8 +68,18 @@ namespace Out_of_Office.Controllers
             }
             return View("CreateEmployee", command);
         }
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, bool isActive)
+        {
+            var command = new UpdateEmployeeStatusCommand
+            {
+                Id = id,
+                Status = isActive ? "Active" : "Inactive"
+            };
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
+        }
 
-        
         //public async task<iactionresult> edit(int id)
         //{
         //    var employee = await _mediator.send(new getemployeebyidquery(id));
@@ -79,7 +90,7 @@ namespace Out_of_Office.Controllers
         //    return view(employee);
         //}
 
-        
+
         //[httppost]
         //[validateantiforgerytoken]
         //public async task<iactionresult> edit(int id, employeedto employee)

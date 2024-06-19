@@ -27,5 +27,15 @@ namespace Out_of_Office.Infrastructure.Repositories
             _dbContext.Employee.Add(employee);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+        {
+            return await _dbContext.Employee.FindAsync(employeeId);
+        }
+
+        public async Task UpdateEmployeeAsync(Employee employee)
+        {
+            _dbContext.Employee.Update(employee);
+            await _dbContext.SaveChangesAsync();
+        }
     }
 }

@@ -11,5 +11,7 @@ namespace Out_of_Office.Domain.Interfaces
     {
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
         Task AddEmployeeAsync(Employee employee);
+        Task<Employee> GetEmployeeByIdAsync(int employeeId);
+        Task UpdateEmployeeAsync(Employee employee);
     }
 }
