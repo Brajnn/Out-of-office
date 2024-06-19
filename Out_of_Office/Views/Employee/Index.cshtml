@@ -9,7 +9,11 @@
         Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
         <input type="submit" value="Search" />
     </p>
+
     }
+</p>
+<p>
+    @Html.ActionLink("Add New Employee", "Create", "Employee", null, new { @class = "btn btn-primary" })
 </p>
 
 <table class="table">

@@ -1,7 +1,10 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Out_of_Office.Application.Employee;
+using Out_of_Office.Application.Employee.Command.CreateEmployee;
 using Out_of_Office.Application.Employee.Queries.GetAllEmployees;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Out_of_Office.Controllers
 {
     public class EmployeeController :Controller
@@ -47,5 +50,51 @@ namespace Out_of_Office.Controllers
 
             return View(employees);
         }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View("CreateEmployee");
+        }
+
+        
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateEmployeeCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                await _mediator.Send(command);
+                return RedirectToAction(nameof(Index));
+            }
+            return View("CreateEmployee", command);
+        }
+
+        
+        //public async task<iactionresult> edit(int id)
+        //{
+        //    var employee = await _mediator.send(new getemployeebyidquery(id));
+        //    if (employee == null)
+        //    {
+        //        return notfound();
+        //    }
+        //    return view(employee);
+        //}
+
+        
+        //[httppost]
+        //[validateantiforgerytoken]
+        //public async task<iactionresult> edit(int id, employeedto employee)
+        //{
+        //    if (id != employee.id)
+        //    {
+        //        return badrequest();
+        //    }
+
+        //    if (modelstate.isvalid)
+        //    {
+        //        await _mediator.send(new updateemployeecommand(employee));
+        //        return redirecttoaction(nameof(index));
+        //    }
+        //    return view(employee);
+        //}
     }
 }

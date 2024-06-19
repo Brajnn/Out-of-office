@@ -10,5 +10,6 @@ namespace Out_of_Office.Domain.Interfaces
     public interface IEmployeeRepository
     {
         Task<IEnumerable<Employee>> GetAllEmployeesAsync();
+        Task AddEmployeeAsync(Employee employee);
     }
 }

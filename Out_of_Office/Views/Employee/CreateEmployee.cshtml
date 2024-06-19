@@ -1,0 +1,66 @@
+﻿@model Out_of_Office.Application.Employee.Command.CreateEmployee.CreateEmployeeCommand
+
+@{
+    ViewData["Title"] = "Create Employee";
+}
+
+<h1>Create Employee</h1>
+
+<h4>Create Employee Command</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create" method="post" enctype="multipart/form-data">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="FullName" class="control-label"></label>
+                <input asp-for="FullName" class="form-control" />
+                <span asp-validation-for="FullName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Subdivision" class="control-label"></label>
+                <input asp-for="Subdivision" class="form-control" />
+                <span asp-validation-for="Subdivision" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Position" class="control-label"></label>
+                <input asp-for="Position" class="form-control" />
+                <span asp-validation-for="Position" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Status" class="control-label"></label>
+                <select asp-for="Status" class="form-control">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                </select>
+                <span asp-validation-for="Status" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeoplePartnerID" class="control-label"></label>
+                <input asp-for="PeoplePartnerID" class="form-control" />
+                <span asp-validation-for="PeoplePartnerID" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="OutOfOfficeBalance" class="control-label"></label>
+                <input asp-for="OutOfOfficeBalance" class="form-control" />
+                <span asp-validation-for="OutOfOfficeBalance" class="text-danger"></span>
+            </div>           
+            <div class="form-group">
+                <label asp-for="Photo" class="control-label"></label>
+                <input asp-for="Photo" type="file" class="form-control" />
+                <span asp-validation-for="Photo" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "Employee")
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
