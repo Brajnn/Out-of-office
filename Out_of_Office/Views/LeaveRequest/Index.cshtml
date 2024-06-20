@@ -1,0 +1,43 @@
+﻿@model IEnumerable<Out_of_Office.Application.Leave_Request.LeaveRequestDto>
+
+@{
+    ViewData["Title"] = "Leave Requests";
+}
+
+<h2>Leave Requests</h2>
+
+<p>
+    @Html.ActionLink("Add New Leave Request", "Create", "LeaveRequest", null, new { @class = "btn btn-primary" })
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="SearchRequestNumber">Search by Request Number:</label>
+        <input type="text" name="SearchRequestId" id="SearchRequestId" class="form-control" value="@ViewData["SearchRequestId"]" />
+    </div>
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Request Number</th>
+            <th>Employee</th>
+            <th>Start Date</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var leaveRequest in Model)
+        {
+            <tr>
+                <td>@leaveRequest.ID</td>
+                <td>@leaveRequest.EmployeeFullName</td>
+                <td>@leaveRequest.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@leaveRequest.ID" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

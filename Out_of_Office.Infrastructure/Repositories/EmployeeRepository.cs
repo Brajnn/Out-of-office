@@ -27,9 +27,9 @@ namespace Out_of_Office.Infrastructure.Repositories
             _dbContext.Employee.Add(employee);
             await _dbContext.SaveChangesAsync();
         }
-        public async Task<Employee> GetEmployeeByIdAsync(int employeeId)
+        public async Task<Employee> GetEmployeeByIdAsync(int Id)
         {
-            return await _dbContext.Employee.FindAsync(employeeId);
+            return await _dbContext.Employee.FindAsync(Id);
         }
 
         public async Task UpdateEmployeeAsync(Employee employee)

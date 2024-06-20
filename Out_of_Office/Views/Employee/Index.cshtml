@@ -57,6 +57,7 @@
                             @(employee.Status == "Active" ? "Deactivate" : "Activate")
                         </button>
                     </form>
+                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
                 </td>
             </tr>
         }

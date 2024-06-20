@@ -3,8 +3,10 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Out_of_Office.Application.Employee;
 using Out_of_Office.Application.Employee.Command.CreateEmployee;
+using Out_of_Office.Application.Employee.Command.UpdateEmployeeCommand;
 using Out_of_Office.Application.Employee.Command.UpdateEmployeeStatus;
 using Out_of_Office.Application.Employee.Queries.GetAllEmployees;
+using Out_of_Office.Application.Employee.Queries.GetEmployeeById;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 namespace Out_of_Office.Controllers
 {
@@ -79,33 +81,41 @@ namespace Out_of_Office.Controllers
             await _mediator.Send(command);
             return RedirectToAction(nameof(Index));
         }
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var query = new GetEmployeeByIdQuery { Id = id };
+            var employee = await _mediator.Send(query);
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View("EditEmployee", employee);
+        }
 
-        //public async task<iactionresult> edit(int id)
-        //{
-        //    var employee = await _mediator.send(new getemployeebyidquery(id));
-        //    if (employee == null)
-        //    {
-        //        return notfound();
-        //    }
-        //    return view(employee);
-        //}
+        [HttpPost]
+        public async Task<IActionResult> Edit(EmployeeDto employeeDto)
+        {
+            if (ModelState.IsValid)
+            {
+                var command = new UpdateEmployeeCommand
+                {
+                    Id = employeeDto.Id,
+                    FullName = employeeDto.FullName,
+                    Subdivision = employeeDto.Subdivision,
+                    Position = employeeDto.Position,
+                    Status = employeeDto.Status,
+                    PeoplePartnerID = employeeDto.PeoplePartnerID,
+                    OutOfOfficeBalance = employeeDto.OutOfOfficeBalance,
+                    Photo = employeeDto.Photo
+                };
 
+                await _mediator.Send(command);
+                return RedirectToAction(nameof(Index));
+            }
+            return View("EditEmployee", employeeDto);
+        }
 
-        //[httppost]
-        //[validateantiforgerytoken]
-        //public async task<iactionresult> edit(int id, employeedto employee)
-        //{
-        //    if (id != employee.id)
-        //    {
-        //        return badrequest();
-        //    }
-
-        //    if (modelstate.isvalid)
-        //    {
-        //        await _mediator.send(new updateemployeecommand(employee));
-        //        return redirecttoaction(nameof(index));
-        //    }
-        //    return view(employee);
-        //}
+        
     }
 }

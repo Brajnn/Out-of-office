@@ -1,0 +1,27 @@
+﻿@model IEnumerable<Out_of_Office.Application.Approval_Request.ApprovalRequestDto>
+
+<h2>Approval Requests</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Approver</th>
+            <th>Leave Request Number</th>
+            <th>Status</th>
+            <th>Comment</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var approvalRequest in Model)
+        {
+            <tr>
+                <td>@approvalRequest.ID</td>
+                <td>@approvalRequest.ApproverFullName</td>
+                <td>@approvalRequest.LeaveRequestID</td>
+                <td>@approvalRequest.Status</td>
+                <td>@approvalRequest.Comment</td>
+            </tr>
+        }
+    </tbody>
+</table>

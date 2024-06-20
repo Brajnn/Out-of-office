@@ -21,6 +21,8 @@ namespace Out_of_Office.Infrastructure.Extensions
             services.AddDbContext<Out_of_OfficeDbContext>(options =>
                 options.UseSqlServer(configuration.GetConnectionString("OutOfOfficeConnectionString")));
             services.AddScoped<IEmployeeRepository,EmployeeRepository>();
+            services.AddScoped<IApprovalRequestRepository, ApprovalRequestRepository>();
+            services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
         }
     }
 }
