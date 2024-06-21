@@ -10,10 +10,9 @@ namespace Out_of_Office.Application.Approval_Request.Query.GetApprovalRequestByI
     public class GetApprovalRequestByIdQuery : IRequest<ApprovalRequestDto>
     {
         public int Id { get; }
-
         public GetApprovalRequestByIdQuery(int id)
         {
-            Id = id;
+            Id= id;
         }
     }
 }

@@ -29,7 +29,9 @@ namespace Out_of_Office.Infrastructure.Repositories
         }
         public async Task<ApprovalRequest> GetApprovalRequestByIdAsync(int id)
         {
-            return await _dbContext.Set<ApprovalRequest>().FindAsync(id);
+            return await _dbContext.ApprovalRequest
+                        .Include(ar => ar.Approver)
+                        .FirstOrDefaultAsync(ar => ar.ID == id);
         }
         public async Task AddApprovalRequestAsync(ApprovalRequest approvalRequest)
         {

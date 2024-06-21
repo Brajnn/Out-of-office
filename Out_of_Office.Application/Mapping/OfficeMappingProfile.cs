@@ -17,11 +17,13 @@ namespace Out_of_Office.Application.Mapping
         public OfficeMappingProfile()
         {
             CreateMap<Domain.Entities.Employee, EmployeeDto>();
-            CreateMap<Domain.Entities.ApprovalRequest, ApprovalRequestDto>()
-                .ForMember(dest => dest.ApproverFullName, opt => opt.MapFrom(src => src.Approver.FullName));
+
+            CreateMap<ApprovalRequest, ApprovalRequestDto>()
+           .ForMember(dest => dest.ApproverFullName, opt => opt.MapFrom(src => src.Approver != null ? src.Approver.FullName : string.Empty));
             CreateMap<LeaveRequest, LeaveRequestDto>()
            .ForMember(dest => dest.EmployeeFullName, opt => opt.MapFrom(src => src.Employee.FullName))
            .ForMember(dest => dest.Status, opt => opt.MapFrom(src => src.Status.ToString()));
+
             CreateMap<Domain.Entities.Project, ProjectDto>();
         }
     }
