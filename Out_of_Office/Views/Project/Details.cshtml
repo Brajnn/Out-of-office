@@ -1,0 +1,38 @@
+﻿@model Out_of_Office.Application.Project.ProjectDto
+
+@{
+    ViewData["Title"] = "Project Details";
+}
+
+<h2>Project Details</h2>
+
+<div>
+    <h4>Project</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.ID</dd>
+
+        <dt class="col-sm-2">Project Type</dt>
+        <dd class="col-sm-10">@Model.ProjectType</dd>
+
+        <dt class="col-sm-2">Start Date</dt>
+        <dd class="col-sm-10">@Model.StartDate.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-2">End Date</dt>
+        <dd class="col-sm-10">@Model.EndDate?.ToString("yyyy-MM-dd")</dd>
+
+        <dt class="col-sm-2">Project Manager</dt>
+        <dd class="col-sm-10">@Model.ProjectManagerFullName</dd>
+
+        <dt class="col-sm-2">Comment</dt>
+        <dd class="col-sm-10">@Model.Comment</dd>
+
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index" class="btn btn-primary">Back to List</a>
+</div>
+

@@ -1,0 +1,46 @@
+﻿@model IEnumerable<Out_of_Office.Application.Project.ProjectDto>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<h2>Projects</h2>
+
+<p>
+    @using (Html.BeginForm("Index", "Project", FormMethod.Get))
+    {
+        <label for="searchProjectId">Search by Project ID:</label>
+        <input type="number" id="searchProjectId" name="searchProjectId" value="@ViewData["SearchProjectId"]" />
+        <input type="submit" value="Search" class="btn btn-primary" />
+    }
+
+</p>
+<p>
+    @Html.ActionLink("Add New Project", "Create", "Project", null, new { @class = "btn btn-primary" })
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.ActionLink("Project ID", "Index", new { sortOrder = ViewBag.IdSortParm, searchProjectId = ViewData["SearchProjectId"] })</th>
+            <th>@Html.ActionLink("Project Type", "Index", new { sortOrder = ViewBag.TypeSortParm, searchProjectId = ViewData["SearchProjectId"] })</th>
+            <th>@Html.ActionLink("Start Date", "Index", new { sortOrder = ViewBag.StartDateSortParm, searchProjectId = ViewData["SearchProjectId"] })</th>
+            <th>@Html.ActionLink("Project Manager", "Index", new { sortOrder = ViewBag.ManagerSortParm, searchProjectId = ViewData["SearchProjectId"] })</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var project in Model)
+        {
+            <tr>
+                <td>@project.ID</td>
+                <td>@project.ProjectType</td>
+                <td>@project.StartDate.ToString("yyyy-MM-dd")</td>
+                <td>@project.ProjectManagerFullName</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@project.ID" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
