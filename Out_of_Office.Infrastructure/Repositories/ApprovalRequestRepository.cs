@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Out_of_Office.Application.Approval_Request;
 using Out_of_Office.Domain.Entities;
 using Out_of_Office.Domain.Interfaces;
 using Out_of_Office.Infrastructure.Presistance;
@@ -12,19 +13,33 @@ namespace Out_of_Office.Infrastructure.Repositories
 {
     public class ApprovalRequestRepository:IApprovalRequestRepository
     {
-        private readonly Out_of_OfficeDbContext _context;
+        private readonly Out_of_OfficeDbContext _dbContext;
 
         public ApprovalRequestRepository(Out_of_OfficeDbContext context)
         {
-            _context = context;
+            _dbContext = context;
         }
 
         public async Task<IEnumerable<ApprovalRequest>> GetAllApprovalRequestsAsync()
         {
-            return await _context.ApprovalRequest
+            return await _dbContext.ApprovalRequest
                 .Include(ar => ar.Approver)
                 .Include(ar => ar.LeaveRequest)
                 .ToListAsync();
+        }
+        public async Task<ApprovalRequest> GetApprovalRequestByIdAsync(int id)
+        {
+            return await _dbContext.Set<ApprovalRequest>().FindAsync(id);
+        }
+        public async Task AddApprovalRequestAsync(ApprovalRequest approvalRequest)
+        {
+            _dbContext.ApprovalRequest.Add(approvalRequest);
+            await _dbContext.SaveChangesAsync();
+        }
+        public async Task UpdateAsync(ApprovalRequest approvalRequest)
+        {
+            _dbContext.ApprovalRequest.Update(approvalRequest);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

@@ -1,15 +1,43 @@
 ﻿@model IEnumerable<Out_of_Office.Application.Approval_Request.ApprovalRequestDto>
 
+@{
+    ViewData["Title"] = "Approval Requests";
+    var currentSort = ViewBag.CurrentSort as string;
+    var idSortParam = currentSort == "id_asc" ? "id_desc" : "id_asc";
+    var approverSortParam = currentSort == "approver_asc" ? "approver_desc" : "approver_asc";
+    var statusSortParam = currentSort == "status_asc" ? "status_desc" : "status_asc";
+}
+
 <h2>Approval Requests</h2>
+
+<p>
+    <a asp-action="Create" class="btn btn-primary">Add New Approval Request</a>
+</p>
+
+<form asp-action="Index" method="get">
+    <div class="form-group">
+        <label for="SearchRequestId">Search by Leave Request Number:</label>
+        <input type="text" name="SearchRequestId" id="SearchRequestId" class="form-control" value="@ViewData["SearchRequestId"]" />
+    </div>
+    <button type="submit" class="btn btn-secondary">Search</button>
+</form>
 
 <table class="table">
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Approver</th>
-            <th>Leave Request Number</th>
-            <th>Status</th>
-            <th>Comment</th>
+            <th>
+                <a href="?sortOrder=@idSortParam">ID</a>
+            </th>
+            <th>
+                <a href="?sortOrder=@approverSortParam">Approver</a>
+            </th>
+            <th>
+                Leave Request Number
+            </th>
+            <th>
+                <a href="?sortOrder=@statusSortParam">Status</a>
+            </th>
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -20,7 +48,22 @@
                 <td>@approvalRequest.ApproverFullName</td>
                 <td>@approvalRequest.LeaveRequestID</td>
                 <td>@approvalRequest.Status</td>
-                <td>@approvalRequest.Comment</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@approvalRequest.ID" class="btn btn-info">Details</a>
+                    @if (approvalRequest.Status == Out_of_Office.Domain.Entities.ApprovalStatus.New)
+                    {
+                        <form asp-controller="ApprovalRequest" asp-action="Approve" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@approvalRequest.ID" />
+                            <input type="hidden" name="status" value="Approved" />
+                            <button type="submit" class="btn btn-success">Approve</button>
+                        </form>
+                        <form asp-controller="ApprovalRequest" asp-action="Reject" method="post" class="d-inline">
+                            <input type="hidden" name="id" value="@approvalRequest.ID" />
+                            <input type="hidden" name="status" value="Rejected" />
+                            <button type="submit" class="btn btn-danger">Reject</button>
+                        </form>
+                    }
+                </td>
             </tr>
         }
     </tbody>

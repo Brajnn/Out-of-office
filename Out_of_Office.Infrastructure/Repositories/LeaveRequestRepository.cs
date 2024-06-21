@@ -31,5 +31,10 @@ namespace Out_of_Office.Infrastructure.Repositories
                 .Include(lr => lr.Employee)
                 .FirstOrDefaultAsync(lr => lr.ID == id);
         }
+        public async Task UpdateAsync(LeaveRequest leaveRequest)
+        {
+            _context.LeaveRequest.Update(leaveRequest);
+            await _context.SaveChangesAsync();
+        }
     }
 }

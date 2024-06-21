@@ -1,0 +1,28 @@
+﻿@model Out_of_Office.Application.Approval_Request.ApprovalRequestDto
+
+@{
+    ViewData["Title"] = "Approval Request Details";
+}
+
+<h2>Approval Request Details</h2>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">ID</dt>
+        <dd class="col-sm-10">@Model.ID</dd>
+        <dt class="col-sm-2">Approver</dt>
+        <dd class="col-sm-10">@Model.ApproverFullName</dd>
+        <dt class="col-sm-2">Leave Request Number</dt>
+        <dd class="col-sm-10">@Model.LeaveRequestID</dd>
+        <dt class="col-sm-2">Status</dt>
+        <dd class="col-sm-10">@Model.Status</dd>
+        <dt class="col-sm-2">Comment</dt>
+        <dd class="col-sm-10">@Model.Comment</dd>
+    </dl>
+</div>
+
+<p>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</p>
+

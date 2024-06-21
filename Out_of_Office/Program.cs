@@ -33,6 +33,21 @@ app.MapControllerRoute(
     defaults: new { controller = "Employee", action = "Index" }
 );
 app.MapControllerRoute(
+    name: "lists-projects",
+    pattern: "/Lists/Projects",
+    defaults: new { controller = "Project", action = "Index" }
+);
+app.MapControllerRoute(
+    name: "lists-leaverequest",
+    pattern: "/Lists/LeaveRequests",
+    defaults: new { controller = "LeaveRequest", action = "Index" }
+);
+app.MapControllerRoute(
+    name: "lists-ApprovalRequest",
+    pattern: "/Lists/ApprovalRequests",
+    defaults: new { controller = "ApprovalRequest", action = "Index" }
+);
+app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 

@@ -7,9 +7,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Out_of_Office.Application.Approval_Request.GetAllApprovalRequestQuery
+namespace Out_of_Office.Application.Approval_Request.Query.GetAllApprovalRequestQuery
 {
-    public class GetAllApprovalRequestQueryHandler:IRequestHandler<GetAllApprovalRequestQuery,IEnumerable<ApprovalRequestDto>>
+    public class GetAllApprovalRequestQueryHandler : IRequestHandler<GetAllApprovalRequestQuery, IEnumerable<ApprovalRequestDto>>
     {
         private readonly IApprovalRequestRepository _approvalRequestRepository;
         private readonly IMapper _mapper;
