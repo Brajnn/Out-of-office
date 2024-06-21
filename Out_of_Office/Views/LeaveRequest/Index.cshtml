@@ -2,6 +2,11 @@
 
 @{
     ViewData["Title"] = "Leave Requests";
+    var currentSort = ViewBag.CurrentSort as string;
+    var idSortParam = currentSort == "id_asc" ? "id_desc" : "id_asc";
+    var employeeSortParam = currentSort == "employee_asc" ? "employee_desc" : "employee_asc";
+    var startDateSortParam = currentSort == "startdate_asc" ? "startdate_desc" : "startdate_asc";
+
 }
 
 <h2>Leave Requests</h2>
@@ -21,9 +26,9 @@
 <table class="table">
     <thead>
         <tr>
-            <th>Request Number</th>
-            <th>Employee</th>
-            <th>Start Date</th>
+            <th>@Html.ActionLink("Request Number", "Index", new { sortOrder = idSortParam })</th>
+            <th>@Html.ActionLink("Employee", "Index", new { sortOrder = employeeSortParam })</th>
+            <th>@Html.ActionLink("Start Date", "Index", new { sortOrder = startDateSortParam })</th>
             <th>Actions</th>
         </tr>
     </thead>
