@@ -20,35 +20,22 @@
     <thead>
         <tr>
             <th>
-                @Html.ActionLink("ID", "Index", new { sortOrder = ViewBag.IdSortParm, searchString = ViewBag.CurrentFilter })
-            </th>
-            <th>
                 @Html.ActionLink("Full Name", "Index", new { sortOrder = ViewBag.NameSortParm, searchString = ViewBag.CurrentFilter })
             </th>
-            <th>
-                @Html.ActionLink("Subdivision", "Index", new { sortOrder = ViewBag.SubdivisionSortParm, searchString = ViewBag.CurrentFilter })
-            </th>
+
             <th>
                 @Html.ActionLink("Position", "Index", new { sortOrder = ViewBag.PositionSortParm, searchString = ViewBag.CurrentFilter })
             </th>
-            <th>
-                @Html.ActionLink("Status", "Index", new { sortOrder = ViewBag.StatusSortParm, searchString = ViewBag.CurrentFilter })
-            </th>
-            <th>
-                @Html.ActionLink("Out of Office Balance", "Index", new { sortOrder = ViewBag.OutOfOfficeBalanceSortParm, searchString = ViewBag.CurrentFilter })
-            </th>
+
         </tr>
     </thead>
     <tbody>
         @foreach (var employee in Model)
         {
             <tr>
-                <td>@employee.Id</td>
                 <td>@employee.FullName</td>
-                <td>@employee.Subdivision</td>
                 <td>@employee.Position</td>
-                <td>@employee.Status</td>
-                <td>@employee.OutOfOfficeBalance</td>
+
                 <td>
                     <form asp-action="UpdateStatus" method="post" style="display:inline;">
                         <input type="hidden" name="id" value="@employee.Id" />
@@ -57,6 +44,7 @@
                             @(employee.Status == "Active" ? "Deactivate" : "Activate")
                         </button>
                     </form>
+                    <a class="btn btn-info" asp-action="Details" asp-route-id="@employee.Id">Details</a>
                     <a class="btn btn-warning" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
                 </td>
             </tr>

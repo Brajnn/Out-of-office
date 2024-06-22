@@ -22,10 +22,9 @@ namespace Out_of_Office.Controllers
         {
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
-            ViewBag.SubdivisionSortParm = sortOrder == "Subdivision" ? "subdivision_desc" : "Subdivision";
             ViewBag.PositionSortParm = sortOrder == "Position" ? "position_desc" : "Position";
-            ViewBag.StatusSortParm = sortOrder == "Status" ? "status_desc" : "Status";
-            ViewBag.OutOfOfficeBalanceSortParm = sortOrder == "OutOfOfficeBalance" ? "balance_desc" : "OutOfOfficeBalance";
+
+
             ViewBag.CurrentFilter = searchString;
 
             var employees = await _mediator.Send(new GetAllEmployeesQuery());
@@ -36,23 +35,28 @@ namespace Out_of_Office.Controllers
             }
 
             employees = sortOrder switch
-            {
-                "id_desc" => employees.OrderByDescending(e => e.Id).ToList(),
+            {             
                 "Name" => employees.OrderBy(e => e.FullName).ToList(),
-                "name_desc" => employees.OrderByDescending(e => e.FullName).ToList(),
-                "Subdivision" => employees.OrderBy(e => e.Subdivision).ToList(),
-                "subdivision_desc" => employees.OrderByDescending(e => e.Subdivision).ToList(),
+                "name_desc" => employees.OrderByDescending(e => e.FullName).ToList(),             
                 "Position" => employees.OrderBy(e => e.Position).ToList(),
-                "position_desc" => employees.OrderByDescending(e => e.Position).ToList(),
-                "Status" => employees.OrderBy(e => e.Status).ToList(),
-                "status_desc" => employees.OrderByDescending(e => e.Status).ToList(),
-                "OutOfOfficeBalance" => employees.OrderBy(e => e.OutOfOfficeBalance).ToList(),
-                "balance_desc" => employees.OrderByDescending(e => e.OutOfOfficeBalance).ToList(),
-                _ => employees.OrderBy(e => e.Id).ToList(),
+                "position_desc" => employees.OrderByDescending(e => e.Position).ToList(),   
+                _=>employees
             };
 
             return View(employees);
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var employee = await _mediator.Send(new GetEmployeeByIdQuery { Id = id });
+            if (employee == null)
+            {
+                return NotFound();
+            }
+            return View(employee);
+        }
+
         [HttpGet]
         public IActionResult Create()
         {
