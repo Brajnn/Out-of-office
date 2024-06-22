@@ -37,5 +37,10 @@ namespace Out_of_Office.Infrastructure.Repositories
             await _context.SaveChangesAsync();
             return project.ID;
         }
+        public async Task UpdateProjectAsync(Project project)
+        {
+            _context.Project.Update(project);
+            await _context.SaveChangesAsync();
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace Out_of_Office.Domain.Interfaces
         Task AddEmployeeAsync(Employee employee);
         Task<Employee> GetEmployeeByIdAsync(int id);
         Task UpdateEmployeeAsync(Employee employee);
+        Task<IList<Employee>> GetProjectManagersAsync();
     }
 }

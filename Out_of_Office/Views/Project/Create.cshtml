@@ -6,7 +6,6 @@
 
 <h1>Create Project</h1>
 
-<h4>Create Project Command</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -33,7 +32,13 @@
             </div>
             <div class="form-group">
                 <label asp-for="ProjectManagerID" class="control-label"></label>
-                <input asp-for="ProjectManagerID" class="form-control" />
+                <select asp-for="ProjectManagerID" class="form-control">
+                    <option value="">-- Select Project Manager --</option>
+                    @foreach (var manager in ViewBag.ProjectManagers)
+                    {
+                        <option value="@manager.Id">@manager.FullName</option>
+                    }
+                </select>
                 <span asp-validation-for="ProjectManagerID" class="text-danger"></span>
             </div>
             <div class="form-group">

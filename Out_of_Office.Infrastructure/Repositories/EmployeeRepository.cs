@@ -37,5 +37,11 @@ namespace Out_of_Office.Infrastructure.Repositories
             _dbContext.Employee.Update(employee);
             await _dbContext.SaveChangesAsync();
         }
+        public async Task<IList<Employee>> GetProjectManagersAsync()
+        {
+            return await _dbContext.Employee
+                                 .Where(e => e.Position == "Project Manager")
+                                 .ToListAsync();
+        }
     }
 }

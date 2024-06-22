@@ -11,6 +11,7 @@ namespace Out_of_Office.Domain.Interfaces
     {
         Task<IEnumerable<Project>> GetAllProjectsAsync();
         Task<Project> GetProjectByIdAsync(int id);
+        Task UpdateProjectAsync(Project project);
         Task<int> AddProjectAsync(Project project);
     }
 }

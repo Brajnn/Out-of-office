@@ -1,18 +1,23 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Out_of_Office.Application.Project.Command.CreateProject;
+using Out_of_Office.Application.Project.Command.UpdateProjectStatus;
 using Out_of_Office.Application.Project.Query.GetAllProjectsQuery;
 using Out_of_Office.Application.Project.Query.GetProjectById;
+using Out_of_Office.Domain.Entities;
+using Out_of_Office.Domain.Interfaces;
 
 namespace Out_of_Office.Controllers
 {
     public class ProjectController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IEmployeeRepository _employeeRepository;
 
-        public ProjectController(IMediator mediator)
+        public ProjectController(IMediator mediator, IEmployeeRepository employeeRepository)
         {
             _mediator = mediator;
+            _employeeRepository = employeeRepository;
         }
 
         [HttpGet]
@@ -58,8 +63,10 @@ namespace Out_of_Office.Controllers
             return View(project);
         }
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
+            var projectManagers = await _employeeRepository.GetProjectManagersAsync();
+            ViewBag.ProjectManagers = projectManagers;
             return View();
         }
 
@@ -71,8 +78,36 @@ namespace Out_of_Office.Controllers
                 await _mediator.Send(command);
                 return RedirectToAction(nameof(Index));
             }
+            var projectManagers = await _employeeRepository.GetProjectManagersAsync();
+            ViewBag.ProjectManagers = projectManagers;
             return View(command);
         }
+        [HttpPost]
+        public async Task<IActionResult> Activate(int id)
+        {
+            var updateProjectStatusCommand = new UpdateProjectStatusCommand
+            {
+                ProjectId = id,
+                Status = ProjectStatus.Active
+            };
+
+            await _mediator.Send(updateProjectStatusCommand);
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Deactivate(int id)
+        {
+            var updateProjectStatusCommand = new UpdateProjectStatusCommand
+            {
+                ProjectId = id,
+                Status = ProjectStatus.Inactive
+            };
+
+            await _mediator.Send(updateProjectStatusCommand);
+            return RedirectToAction(nameof(Index));
+        }
+
     }
     
 }
