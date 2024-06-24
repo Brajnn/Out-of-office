@@ -9,5 +9,7 @@ namespace Out_of_Office.Application.Project.Query.GetAllProjectsQuery
 {
     public class GetAllProjectsQuery : IRequest<IEnumerable<ProjectDto>>
     {
+        public int UserId { get; set; }
+        public string UserRole { get; set; }
     }
 }

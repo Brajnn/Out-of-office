@@ -21,28 +21,25 @@
                     <ul class="navbar-nav flex-grow-1">
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                            </li>
-                            @if (User.IsInRole("Employee") || User.IsInRole("HR Manager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
+                            @if (User.IsInRole("Employee") || User.IsInRole("HRManager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="LeaveRequest" asp-action="Index">Leave Requests</a>
                                 </li>
                             }
-                            @if (User.IsInRole("HR Manager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
+                            @if (User.IsInRole("HRManager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                                 </li>
                             }
-                            @if (User.IsInRole("Employee") || User.IsInRole("ProjectManager") || User.IsInRole("HR Manager") || User.IsInRole("Administrator"))
+                            @if (User.IsInRole("Employee") || User.IsInRole("ProjectManager") || User.IsInRole("HRManager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                 </li>
                             }
-                            @if (User.IsInRole("HR Manager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
+                            @if (User.IsInRole("HRManager") || User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="ApprovalRequest" asp-action="Index">Approval Requests</a>
@@ -61,7 +58,7 @@
                                     {
                                         @:Administrator
                                     }
-                                    else if (User.IsInRole("HR Manager"))
+                                    else if (User.IsInRole("HRManager"))
                                     {
                                         @:HR Manager
                                     }

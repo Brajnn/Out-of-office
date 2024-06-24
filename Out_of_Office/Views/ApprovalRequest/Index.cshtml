@@ -11,15 +11,14 @@
 <h2>Approval Requests</h2>
 
 
-<form asp-action="Index" method="get">
-    <div class="form-group">
+<p>
+    @using (Html.BeginForm("Index", "ApprovalRequest", FormMethod.Get))
+    {
         <label for="SearchRequestId">Search by Leave Request Number:</label>
-        <input type="text" name="SearchRequestId" id="SearchRequestId" class="form-control" value="@ViewData["SearchRequestId"]" />
-    </div>
-
-    <br />
-    <button type="submit" class="btn btn-secondary">Search</button>
-</form>
+        <input type="text" id="SearchRequestId" name="SearchRequestId" value="@ViewData["SearchRequestId"]" />
+        <input type="submit" value="Search" />
+    }
+</p>
 
 <table class="table">
     <thead>

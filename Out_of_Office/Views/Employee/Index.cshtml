@@ -37,7 +37,7 @@
                 <td>@employee.Position</td>
 
                 <td>
-                    @if (User.IsInRole("HR Manager") || User.IsInRole("Administrator"))
+                    @if (User.IsInRole("HRManager") || User.IsInRole("Administrator"))
                     {
                         <form asp-action="UpdateStatus" method="post" style="display:inline;">
                             <input type="hidden" name="id" value="@employee.Id" />
@@ -48,7 +48,7 @@
                         </form>
                     }
                     <a class="btn btn-info" asp-action="Details" asp-route-id="@employee.Id">Details</a>
-                    @if (User.IsInRole("HR Manager") || User.IsInRole("Administrator"))
+                    @if (User.IsInRole("HRManager") || User.IsInRole("Administrator"))
                     {
                         <a class="btn btn-warning" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
                     }

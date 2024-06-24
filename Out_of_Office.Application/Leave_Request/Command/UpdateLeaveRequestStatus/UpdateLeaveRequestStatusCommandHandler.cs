@@ -38,13 +38,17 @@ namespace Out_of_Office.Application.Leave_Request.Command.UpdateLeaveRequestStat
 
             if (newStatus == LeaveRequest.AbsenceStatus.Submitted)
             {
-                var approvalRequest = new ApprovalRequest
+                var existingApprovalRequest = await _approvalRequestRepository.GetApprovalRequestByLeaveRequestIdAsync(request.LeaveRequestID);
+                if (existingApprovalRequest == null)
                 {
-                    LeaveRequestID = request.LeaveRequestID,
-                    ApproverID = leaveRequest.Employee.PeoplePartnerID,
-                    Status = ApprovalStatus.New
-                };
-                await _approvalRequestRepository.AddApprovalRequestAsync(approvalRequest);
+                    var approvalRequest = new ApprovalRequest
+                    {
+                        LeaveRequestID = request.LeaveRequestID,
+                        ApproverID = leaveRequest.Employee.PeoplePartnerID,
+                        Status = ApprovalStatus.New
+                    };
+                    await _approvalRequestRepository.AddApprovalRequestAsync(approvalRequest);
+                }
             }
 
             return Unit.Value;

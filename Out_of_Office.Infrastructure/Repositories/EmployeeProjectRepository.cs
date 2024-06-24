@@ -39,5 +39,11 @@ namespace Out_of_Office.Infrastructure.Repositories
             return await _context.EmployeeProjects
                 .FirstOrDefaultAsync(ep => ep.EmployeeId == employeeId && ep.ProjectId == projectId);
         }
+        public async Task<IEnumerable<EmployeeProject>> GetProjectsByEmployeeIdAsync(int employeeId)
+        {
+            return await _context.EmployeeProjects
+                .Where(ep => ep.EmployeeId == employeeId)
+                .ToListAsync();
+        }
     }
 }

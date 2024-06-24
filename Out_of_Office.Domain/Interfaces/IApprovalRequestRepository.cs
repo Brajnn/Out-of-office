@@ -9,6 +9,7 @@ namespace Out_of_Office.Domain.Interfaces
 {
     public interface IApprovalRequestRepository
     {
+        Task<ApprovalRequest> GetApprovalRequestByLeaveRequestIdAsync(int leaveRequestId);
         Task<IEnumerable<ApprovalRequest>> GetAllApprovalRequestsAsync();
         Task<ApprovalRequest> GetApprovalRequestByIdAsync(int id);
         Task AddApprovalRequestAsync(ApprovalRequest approvalRequest);

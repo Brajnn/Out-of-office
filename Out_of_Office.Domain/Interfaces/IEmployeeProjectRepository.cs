@@ -12,5 +12,6 @@ namespace Out_of_Office.Domain.Interfaces
         Task AddEmployeeProjectAsync(EmployeeProject employeeProject);
         Task RemoveEmployeeProjectAsync(int employeeId, int projectId);
         Task<EmployeeProject> GetEmployeeProjectAsync(int employeeId, int projectId);
+        Task<IEnumerable<EmployeeProject>> GetProjectsByEmployeeIdAsync(int employeeId);
     }
 }

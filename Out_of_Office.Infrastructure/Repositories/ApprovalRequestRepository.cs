@@ -33,6 +33,12 @@ namespace Out_of_Office.Infrastructure.Repositories
                         .Include(ar => ar.Approver)
                         .FirstOrDefaultAsync(ar => ar.ID == id);
         }
+        public async Task<ApprovalRequest> GetApprovalRequestByLeaveRequestIdAsync(int leaveRequestId)
+        {
+            return await _dbContext.ApprovalRequest
+                                 .FirstOrDefaultAsync(ar => ar.LeaveRequestID == leaveRequestId);
+        }
+
         public async Task AddApprovalRequestAsync(ApprovalRequest approvalRequest)
         {
             _dbContext.ApprovalRequest.Add(approvalRequest);

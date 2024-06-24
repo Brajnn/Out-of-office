@@ -29,7 +29,7 @@ namespace Out_of_Office.Controllers
 
             if (searchRequestId.HasValue)
             {
-                approvalRequests = approvalRequests.Where(ar => ar.ID == searchRequestId.Value).ToList();
+                approvalRequests = approvalRequests.Where(ar => ar.LeaveRequestID == searchRequestId.Value).ToList();
                 ViewData["SearchRequestId"] = searchRequestId.Value;
             }
 

@@ -17,7 +17,7 @@ using Out_of_Office.Infrastructure.Presistance;
 using System.Security.Claims;
 namespace Out_of_Office.Controllers
 {
-    [Authorize(Roles = "HR Manager,ProjectManager,Administrator")]
+    [Authorize(Roles = "HRManager,ProjectManager,Administrator")]
     public class EmployeeController :Controller
     {
         private readonly IMediator _mediator;
@@ -66,9 +66,15 @@ namespace Out_of_Office.Controllers
         }
 
         [HttpGet]
-        public IActionResult Create()
+        public async Task<IActionResult> Create()
         {
-            return View("CreateEmployee");
+            var employees = await _mediator.Send(new GetAllEmployeesQuery());
+            var hrManagers = employees.Where(e => e.Position == "HR Manager").ToList();
+
+            ViewBag.HrManagers = hrManagers;
+            ViewBag.Positions = new[] { "HR Manager", "Project Manager", "Employee" };
+
+            return View("CreateEmployee", new CreateEmployeeCommand());
         }
 
         
@@ -80,6 +86,13 @@ namespace Out_of_Office.Controllers
                 await _mediator.Send(command);
                 return RedirectToAction(nameof(Index));
             }
+            var employees = await _mediator.Send(new GetAllEmployeesQuery());
+            var hrManagers = employees.Where(e => e.Position == "HR Manager").ToList();
+
+            ViewBag.HrManagers = hrManagers;
+            ViewBag.Positions = new[] { "HR Manager", "Project Manager", "Employee" };
+
+
             return View("CreateEmployee", command);
         }
         [HttpPost]

@@ -11,24 +11,29 @@
 
 <h2>Leave Requests</h2>
 
+
+<p>
+    @using (Html.BeginForm("Index", "LeaveRequest", FormMethod.Get))
+    {
+        <label for="SearchRequestId">Search by Request Number:</label>
+        <input type="text" id="SearchRequestId" name="SearchRequestId" value="@ViewData["SearchRequestId"]" />
+        <input type="submit" value="Search" />
+    }
+</p>
+
 <p>
     @Html.ActionLink("Add New Leave Request", "Create", "LeaveRequest", null, new { @class = "btn btn-primary" })
 </p>
 
-<form asp-action="Index" method="get">
-    <div class="form-group">
-        <label for="SearchRequestNumber">Search by Request Number:</label>
-        <input type="text" name="SearchRequestId" id="SearchRequestId" class="form-control" value="@ViewData["SearchRequestId"]" />
-    </div>
-    <br/>
-    <button type="submit" class="btn btn-secondary">Search</button>
-</form>
 
 <table class="table">
     <thead>
         <tr>
             <th>@Html.ActionLink("Request Number", "Index", new { sortOrder = idSortParam })</th>
+            @if (!User.IsInRole("Employee"))
+                {
             <th>@Html.ActionLink("Employee", "Index", new { sortOrder = employeeSortParam })</th>
+                }
             <th>@Html.ActionLink("Start Date", "Index", new { sortOrder = startDateSortParam })</th>
             <th>Actions</th>
         </tr>
@@ -38,7 +43,11 @@
         {
             <tr>
                 <td>@leaveRequest.ID</td>
-                <td>@leaveRequest.EmployeeFullName</td>
+                @if (!User.IsInRole("Employee"))
+                {
+                    <td>@leaveRequest.EmployeeFullName</td>
+                }
+                  
                 <td>@leaveRequest.StartDate.ToString("yyyy-MM-dd")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@leaveRequest.ID" class="btn btn-info">Details</a>

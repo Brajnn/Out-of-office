@@ -11,6 +11,7 @@ using Out_of_Office.Application.Project.Query.GetAllProjectsQuery;
 using Out_of_Office.Application.Project.Query.GetProjectById;
 using Out_of_Office.Domain.Entities;
 using Out_of_Office.Domain.Interfaces;
+using System.Security.Claims;
 
 namespace Out_of_Office.Controllers
 {
@@ -18,11 +19,13 @@ namespace Out_of_Office.Controllers
     {
         private readonly IMediator _mediator;
         private readonly IEmployeeRepository _employeeRepository;
+        private readonly IUserRepository _userRepository;
 
-        public ProjectController(IMediator mediator, IEmployeeRepository employeeRepository)
+        public ProjectController(IMediator mediator, IEmployeeRepository employeeRepository, IUserRepository userRepository)
         {
             _mediator = mediator;
             _employeeRepository = employeeRepository;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -34,14 +37,22 @@ namespace Out_of_Office.Controllers
             ViewBag.StartDateSortParm = sortOrder == "startdate_asc" ? "startdate_desc" : "startdate_asc";
             ViewBag.ManagerSortParm = sortOrder == "manager_asc" ? "manager_desc" : "manager_asc";
 
-            var projects = await _mediator.Send(new GetAllProjectsQuery());
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userRole = User.FindFirstValue(ClaimTypes.Role);
+            if (!int.TryParse(userIdString, out var userId))
+            {
+                return Unauthorized();
+            }
 
+            var user = await _userRepository.GetByIdAsync(userId);
+            var employeeId = user.EmployeeId;
+
+            var projects = await _mediator.Send(new GetAllProjectsQuery { UserId = employeeId, UserRole = userRole });
             if (searchProjectId.HasValue)
             {
                 projects = projects.Where(p => p.ID == searchProjectId.Value).ToList();
                 ViewData["SearchProjectId"] = searchProjectId.Value;
             }
-
             projects = sortOrder switch
             {
                 "id_desc" => projects.OrderByDescending(p => p.ID).ToList(),
