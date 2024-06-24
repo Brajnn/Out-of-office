@@ -1,15 +1,24 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Out_of_Office.Application.Employee;
+using Out_of_Office.Application.Employee.Command.AssignProject;
 using Out_of_Office.Application.Employee.Command.CreateEmployee;
 using Out_of_Office.Application.Employee.Command.UpdateEmployeeCommand;
 using Out_of_Office.Application.Employee.Command.UpdateEmployeeStatus;
 using Out_of_Office.Application.Employee.Queries.GetAllEmployees;
 using Out_of_Office.Application.Employee.Queries.GetEmployeeById;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using Out_of_Office.Application.Models.AssignProjectViewModel;
+using Out_of_Office.Application.Project.Query.GetAllProjectsQuery;
+using Out_of_Office.Domain.Interfaces;
+using Out_of_Office.Infrastructure.Presistance;
+using System.Security.Claims;
 namespace Out_of_Office.Controllers
 {
+    [Authorize(Roles = "HR Manager,Project Manager,Administrator")]
     public class EmployeeController :Controller
     {
         private readonly IMediator _mediator;
@@ -120,6 +129,6 @@ namespace Out_of_Office.Controllers
             return View("EditEmployee", employeeDto);
         }
 
-        
+       
     }
 }

@@ -24,30 +24,31 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
                             </li>
-                            @if (User.IsInRole("Employee"))
+                            @if (User.IsInRole("Employee") || User.IsInRole("HR Manager") || User.IsInRole("Project Manager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="LeaveRequest" asp-action="Index">Leave Requests</a>
                                 </li>
                             }
-                            @if (User.IsInRole("HRManager"))
+                            @if (User.IsInRole("HR Manager") || User.IsInRole("Project Manager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Employee" asp-action="Index">Employees</a>
                                 </li>
                             }
-                            @if (User.IsInRole("ProjectManager"))
+                            @if (User.IsInRole("Employee") || User.IsInRole("ProjectManager") || User.IsInRole("Project Manager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
                                     <a class="nav-link text-dark" asp-area="" asp-controller="Project" asp-action="Index">Projects</a>
                                 </li>
                             }
-                            @if (User.IsInRole("Administrator"))
+                            @if (User.IsInRole("ProjectManager") || User.IsInRole("Project Manager") || User.IsInRole("Administrator"))
                             {
                                 <li class="nav-item">
-                                    <a class="nav-link text-dark" asp-area="" asp-controller="Administration" asp-action="Index">Administration</a>
+                                    <a class="nav-link text-dark" asp-area="" asp-controller="ApprovalRequest" asp-action="Index">Approval Requests</a>
                                 </li>
                             }
+                            
                         }
               
                     </ul>

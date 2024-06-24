@@ -8,6 +8,7 @@ using Out_of_Office.Application.Leave_Request.Query.GetLeaveRequestById;
 using Out_of_Office.Domain.Interfaces;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
+using Out_of_Office.Application.Leave_Request.Command.CreateLeaveRequestCommand;
 
 namespace Out_of_Office.Controllers
 {
@@ -75,6 +76,42 @@ namespace Out_of_Office.Controllers
                 return NotFound();
             }
             return View(leaveRequest);
+        }
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Create(CreateLeaveRequestCommand command)
+        {
+            if (ModelState.IsValid)
+            {
+                var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                int userId;
+                try
+                {
+                    userId = int.Parse(userIdString);
+                }
+                catch
+                {
+                    return Unauthorized();
+                }
+
+                var user = await _userRepository.GetByIdAsync(userId);
+                if (user == null)
+                {
+                    return Unauthorized();
+                }
+
+                command.EmployeeId = user.EmployeeId;
+
+                await _mediator.Send(command);
+                return RedirectToAction(nameof(Index));
+            }
+            return View(command);
         }
     }
 }

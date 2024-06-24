@@ -24,6 +24,7 @@ namespace Out_of_Office.Domain.Entities
 
         public byte[] Photo { get; set; }
         public User User { get; set; }
+        public ICollection<EmployeeProject> EmployeeProjects { get; set; }
     }
 
     public enum EmployeeStatus

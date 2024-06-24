@@ -26,8 +26,8 @@ builder.Services.AddAuthorization(options =>
         .RequireAuthenticatedUser()
         .Build();
     options.AddPolicy("EmployeeOnly", policy => policy.RequireRole("Employee"));
-    options.AddPolicy("HRManagerOnly", policy => policy.RequireRole("HRManager"));
-    options.AddPolicy("ProjectManagerOnly", policy => policy.RequireRole("ProjectManager"));
+    options.AddPolicy("HRManagerOnly", policy => policy.RequireRole("HR Manager"));
+    options.AddPolicy("ProjectManagerOnly", policy => policy.RequireRole("Project Manager"));
     options.AddPolicy("AdministratorOnly", policy => policy.RequireRole("Administrator"));
 });
 var app = builder.Build();

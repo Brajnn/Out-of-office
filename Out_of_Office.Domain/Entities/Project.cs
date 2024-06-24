@@ -18,7 +18,8 @@ namespace Out_of_Office.Domain.Entities
         public Employee ProjectManager { get; set; } 
 
         public string? Comment { get; set; }
-        public ProjectStatus Status { get; set; }  
+        public ProjectStatus Status { get; set; }
+        public ICollection<EmployeeProject> EmployeeProjects { get; set; }
     }
 
 

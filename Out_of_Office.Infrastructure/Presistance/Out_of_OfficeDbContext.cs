@@ -20,7 +20,7 @@ namespace Out_of_Office.Infrastructure.Presistance
         public DbSet<Project> Project { get; set; }
         public DbSet<LeaveRequest> LeaveRequest { get; set; }
         public DbSet<ApprovalRequest> ApprovalRequest { get; set; }
-
+        public DbSet<EmployeeProject> EmployeeProjects { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>()
@@ -129,6 +129,23 @@ namespace Out_of_Office.Infrastructure.Presistance
                       .HasConversion<string>(); 
                 entity.Property(e => e.Comment)
                       .HasMaxLength(1000);  
+            });
+            modelBuilder.Entity<EmployeeProject>(entity =>
+            {
+                entity.HasKey(ep => new { ep.EmployeeId, ep.ProjectId });
+
+                entity.HasOne(ep => ep.Employee)
+                      .WithMany(e => e.EmployeeProjects)
+                      .HasForeignKey(ep => ep.EmployeeId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(ep => ep.Project)
+                      .WithMany(p => p.EmployeeProjects)
+                      .HasForeignKey(ep => ep.ProjectId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.Property(ep => ep.IsProjectManager)
+                      .IsRequired();
             });
             base.OnModelCreating(modelBuilder);
         }

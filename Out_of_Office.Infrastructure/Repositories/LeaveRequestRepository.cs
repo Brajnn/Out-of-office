@@ -36,5 +36,10 @@ namespace Out_of_Office.Infrastructure.Repositories
             _context.LeaveRequest.Update(leaveRequest);
             await _context.SaveChangesAsync();
         }
+        public async Task AddAsync(LeaveRequest leaveRequest)
+        {
+            _context.LeaveRequest.Add(leaveRequest);
+            await _context.SaveChangesAsync();
+        }
     }
 }
