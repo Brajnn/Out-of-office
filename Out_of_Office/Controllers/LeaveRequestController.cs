@@ -1,19 +1,28 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Out_of_Office.Application.Leave_Request.Query;
 using Out_of_Office.Application.Leave_Request.Query.GetAllLeaveRequest;
 using Out_of_Office.Application.Leave_Request.Query.GetLeaveRequestById;
+using Out_of_Office.Domain.Interfaces;
+using System.Security.Claims;
+using Microsoft.Extensions.Logging;
 
 namespace Out_of_Office.Controllers
 {
+    [Authorize]
     public class LeaveRequestController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IUserRepository _userRepository;
+        private readonly ILogger<LeaveRequestController> _logger;
 
-        public LeaveRequestController(IMediator mediator)
+        public LeaveRequestController(IMediator mediator, ILogger<LeaveRequestController> logger, IUserRepository userRepository)
         {
             _mediator = mediator;
+            _logger = logger;
+            _userRepository = userRepository;
         }
 
         [HttpGet]
@@ -24,7 +33,20 @@ namespace Out_of_Office.Controllers
             ViewBag.EmployeeSortParm = sortOrder == "employee_asc" ? "employee_desc" : "employee_asc";
             ViewBag.StartDateSortParm = sortOrder == "startdate_asc" ? "startdate_desc" : "startdate_asc";
 
-            var leaveRequests = await _mediator.Send(new GetAllLeaveRequestsQuery());
+            var userIdString = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userRole = User.FindFirstValue(ClaimTypes.Role);
+            if (!int.TryParse(userIdString, out var userId))
+            {
+                _logger.LogError("Unable to parse UserId from NameIdentifier claim. Value: {UserIdString}", userIdString);
+                return Unauthorized(); 
+            }
+
+            var user = await _userRepository.GetByIdAsync(userId);
+
+            var employeeId = user.EmployeeId;
+         
+            var leaveRequests = await _mediator.Send(new GetAllLeaveRequestsQuery { UserId = employeeId, UserRole = userRole });
+
 
             if (searchRequestId.HasValue)
             {

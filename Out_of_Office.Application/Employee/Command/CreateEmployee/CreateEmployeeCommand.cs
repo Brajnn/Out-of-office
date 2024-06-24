@@ -16,17 +16,7 @@ namespace Out_of_Office.Application.Employee.Command.CreateEmployee
         public int PeoplePartnerID { get; set; }
         public int OutOfOfficeBalance { get; set; }
         public byte[] Photo { get; set; }
-        public CreateEmployeeCommand() { }
-
-        public CreateEmployeeCommand(EmployeeDto employee)
-        {
-            FullName = employee.FullName;
-            Subdivision = employee.Subdivision;
-            Position = employee.Position;
-            Status = employee.Status;
-            PeoplePartnerID = employee.PeoplePartnerID;
-            OutOfOfficeBalance = employee.OutOfOfficeBalance;
-            Photo = employee.Photo;
-        }
+        public string Username { get; set; }
+        public string Password { get; set; }
     }
 }

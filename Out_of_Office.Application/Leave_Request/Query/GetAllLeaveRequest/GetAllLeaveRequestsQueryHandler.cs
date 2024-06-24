@@ -23,6 +23,10 @@ namespace Out_of_Office.Application.Leave_Request.Query.GetAllLeaveRequest
         public async Task<IEnumerable<LeaveRequestDto>> Handle(GetAllLeaveRequestsQuery request, CancellationToken cancellationToken)
         {
             var leaveRequests = await _leaveRequestRepository.GetAllLeaveRequestsAsync();
+            if (request.UserRole == "Employee")
+            {
+                leaveRequests = leaveRequests.Where(lr => lr.Employee.Id == request.UserId).ToList();
+            }
             var leaveRequestDtos = _mapper.Map<IEnumerable<LeaveRequestDto>>(leaveRequests);
             return leaveRequestDtos;
         }

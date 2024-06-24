@@ -12,10 +12,11 @@ namespace Out_of_Office.Application.Employee.Command.CreateEmployee
     public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand>
     {
         private readonly IEmployeeRepository _employeeRepository;
-
-        public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository)
+        private readonly IUserService _userService;
+        public CreateEmployeeCommandHandler(IEmployeeRepository employeeRepository, IUserService userService)
         {
             _employeeRepository = employeeRepository;
+            _userService = userService;
         }
 
         public async Task<Unit> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -36,6 +37,7 @@ namespace Out_of_Office.Application.Employee.Command.CreateEmployee
             };
 
             await _employeeRepository.AddEmployeeAsync(employee);
+            await _userService.RegisterAsync(request.Username, request.Password, employee.Id, employee.Position);
 
             return Unit.Value;
         }
