@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using Out_of_Office.Application.Employee;
 using Out_of_Office.Domain.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,26 @@ namespace Out_of_Office.Application.Project.Query.GetProjectById
         public async Task<ProjectDto> Handle(GetProjectByIdQuery request, CancellationToken cancellationToken)
         {
             var project = await _projectRepository.GetProjectByIdAsync(request.Id);
-            return _mapper.Map<ProjectDto>(project);
+            if (project == null)
+            {
+                throw new KeyNotFoundException("Project not found.");
+            }
+
+            var projectDto = _mapper.Map<ProjectDto>(project);
+
+
+            projectDto.Employees = project.EmployeeProjects.Select(ep => new EmployeeDto
+            {
+                Id = ep.Employee.Id,
+                FullName = ep.Employee.FullName,
+                Subdivision = ep.Employee.Subdivision,
+                Position = ep.Employee.Position,
+                Status = ep.Employee.Status.ToString(),
+                PeoplePartnerID = ep.Employee.PeoplePartnerID,
+                OutOfOfficeBalance = ep.Employee.OutOfOfficeBalance
+            }).ToList();
+
+            return projectDto;
         }
     }
 }

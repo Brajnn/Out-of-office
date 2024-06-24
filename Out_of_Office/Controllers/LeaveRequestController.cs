@@ -9,6 +9,7 @@ using Out_of_Office.Domain.Interfaces;
 using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using Out_of_Office.Application.Leave_Request.Command.CreateLeaveRequestCommand;
+using Out_of_Office.Application.Leave_Request.Command.UpdateLeaveRequestStatus;
 
 namespace Out_of_Office.Controllers
 {
@@ -112,6 +113,17 @@ namespace Out_of_Office.Controllers
                 return RedirectToAction(nameof(Index));
             }
             return View(command);
+        }
+        [HttpPost]
+        public async Task<IActionResult> UpdateStatus(int id, string status)
+        {
+            var command = new UpdateLeaveRequestStatusCommand
+            {
+                LeaveRequestID = id,
+                Status = status
+            };
+            await _mediator.Send(command);
+            return RedirectToAction(nameof(Index));
         }
     }
 }

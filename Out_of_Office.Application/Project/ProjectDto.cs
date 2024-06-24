@@ -1,4 +1,5 @@
-﻿using Out_of_Office.Domain.Entities;
+﻿using Out_of_Office.Application.Employee;
+using Out_of_Office.Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,5 +17,6 @@ namespace Out_of_Office.Application.Project
         public string ProjectManagerFullName { get; set; } 
         public string? Comment { get; set; }
         public ProjectStatus Status { get; set; }
+        public List<EmployeeDto> Employees { get; set; }
     }
 }

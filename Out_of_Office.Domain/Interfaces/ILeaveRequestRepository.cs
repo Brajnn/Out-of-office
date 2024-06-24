@@ -11,6 +11,7 @@ namespace Out_of_Office.Domain.Interfaces
     {
         Task<IEnumerable<LeaveRequest>> GetAllLeaveRequestsAsync();
         Task<LeaveRequest> GetLeaveRequestByIdAsync(int id);
+        Task UpdateLeaveRequestAsync(LeaveRequest leaveRequest);
         Task UpdateAsync(LeaveRequest leaveRequest);
         Task AddAsync(LeaveRequest leaveRequest);
     }

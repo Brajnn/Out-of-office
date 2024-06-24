@@ -29,6 +29,7 @@ namespace Out_of_Office.Infrastructure.Extensions
             services.AddScoped<IApprovalRequestRepository, ApprovalRequestRepository>();
             services.AddScoped<ILeaveRequestRepository, LeaveRequestRepository>();
             services.AddScoped<IProjectRepository, ProjectRepository>();
+            services.AddScoped<IEmployeeProjectRepository, EmployeeProjectRepository>();
         }
     }
 }

@@ -28,8 +28,10 @@ namespace Out_of_Office.Infrastructure.Repositories
         public async Task<Project> GetProjectByIdAsync(int id)
         {
             return await _context.Project
-                                 .Include(p => p.ProjectManager)
-                                 .FirstOrDefaultAsync(p => p.ID == id);
+               .Include(p => p.ProjectManager)
+               .Include(p => p.EmployeeProjects)
+               .ThenInclude(ep => ep.Employee)
+               .FirstOrDefaultAsync(p => p.ID == id);
         }
         public async Task<int> AddProjectAsync(Project project)
         {
@@ -42,5 +44,6 @@ namespace Out_of_Office.Infrastructure.Repositories
             _context.Project.Update(project);
             await _context.SaveChangesAsync();
         }
+        
     }
 }

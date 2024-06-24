@@ -1,4 +1,5 @@
-﻿using Out_of_Office.Application.Project;
+﻿using Out_of_Office.Application.Employee;
+using Out_of_Office.Application.Project;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,8 +10,9 @@ namespace Out_of_Office.Application.Models.AssignProjectViewModel
 {
     public class AssignProjectViewModel
     {
-        public int EmployeeId { get; set; }
-        public List<ProjectDto> Projects { get; set; }
-        public int SelectedProjectId { get; set; }
+        public int ProjectId { get; set; }
+        public ProjectDto Project { get; set; }
+        public IEnumerable<EmployeeDto> Employees { get; set; }
+        public int SelectedEmployeeId { get; set; }
     }
 }

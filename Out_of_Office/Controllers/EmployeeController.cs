@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Out_of_Office.Application.Employee;
-using Out_of_Office.Application.Employee.Command.AssignProject;
 using Out_of_Office.Application.Employee.Command.CreateEmployee;
 using Out_of_Office.Application.Employee.Command.UpdateEmployeeCommand;
 using Out_of_Office.Application.Employee.Command.UpdateEmployeeStatus;
@@ -18,7 +17,7 @@ using Out_of_Office.Infrastructure.Presistance;
 using System.Security.Claims;
 namespace Out_of_Office.Controllers
 {
-    [Authorize(Roles = "HR Manager,Project Manager,Administrator")]
+    [Authorize(Roles = "HR Manager,ProjectManager,Administrator")]
     public class EmployeeController :Controller
     {
         private readonly IMediator _mediator;

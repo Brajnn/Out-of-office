@@ -37,15 +37,21 @@
                 <td>@employee.Position</td>
 
                 <td>
-                    <form asp-action="UpdateStatus" method="post" style="display:inline;">
-                        <input type="hidden" name="id" value="@employee.Id" />
-                        <input type="hidden" name="isActive" value="@(employee.Status == "Active" ? "false" : "true")" />
-                        <button type="submit" class="btn @(employee.Status == "Active" ? "btn-danger" : "btn-success")">
-                            @(employee.Status == "Active" ? "Deactivate" : "Activate")
-                        </button>
-                    </form>
+                    @if (User.IsInRole("HR Manager") || User.IsInRole("Administrator"))
+                    {
+                        <form asp-action="UpdateStatus" method="post" style="display:inline;">
+                            <input type="hidden" name="id" value="@employee.Id" />
+                            <input type="hidden" name="isActive" value="@(employee.Status == "Active" ? "false" : "true")" />
+                            <button type="submit" class="btn @(employee.Status == "Active" ? "btn-danger" : "btn-success")">
+                                @(employee.Status == "Active" ? "Deactivate" : "Activate")
+                            </button>
+                        </form>
+                    }
                     <a class="btn btn-info" asp-action="Details" asp-route-id="@employee.Id">Details</a>
-                    <a class="btn btn-warning" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
+                    @if (User.IsInRole("HR Manager") || User.IsInRole("Administrator"))
+                    {
+                        <a class="btn btn-warning" asp-action="Edit" asp-route-id="@employee.Id">Edit</a>
+                    }
                 </td>
             </tr>
         }

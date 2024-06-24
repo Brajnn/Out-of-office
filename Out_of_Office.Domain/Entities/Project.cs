@@ -20,6 +20,10 @@ namespace Out_of_Office.Domain.Entities
         public string? Comment { get; set; }
         public ProjectStatus Status { get; set; }
         public ICollection<EmployeeProject> EmployeeProjects { get; set; }
+        public Project()
+        {
+            EmployeeProjects = new List<EmployeeProject>(); 
+        }
     }
 
 

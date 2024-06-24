@@ -20,6 +20,7 @@
         <label for="SearchRequestNumber">Search by Request Number:</label>
         <input type="text" name="SearchRequestId" id="SearchRequestId" class="form-control" value="@ViewData["SearchRequestId"]" />
     </div>
+    <br/>
     <button type="submit" class="btn btn-secondary">Search</button>
 </form>
 
@@ -41,6 +42,18 @@
                 <td>@leaveRequest.StartDate.ToString("yyyy-MM-dd")</td>
                 <td>
                     <a asp-action="Details" asp-route-id="@leaveRequest.ID" class="btn btn-info">Details</a>
+                </td>
+                <td>
+                    <form asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@leaveRequest.ID" />
+                        <input type="hidden" name="status" value="Submitted" />
+                        <button type="submit" class="btn btn-success">Submit</button>
+                    </form>
+                    <form asp-action="UpdateStatus" method="post" class="d-inline">
+                        <input type="hidden" name="id" value="@leaveRequest.ID" />
+                        <input type="hidden" name="status" value="Cancelled" />
+                        <button type="submit" class="btn btn-danger">Cancel</button>
+                    </form>
                 </td>
             </tr>
         }
