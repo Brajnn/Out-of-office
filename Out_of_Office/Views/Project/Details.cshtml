@@ -67,7 +67,8 @@
 
 <div>
     <a asp-action="Index" class="btn btn-primary">Back to List</a>
-    @if (User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
+    @if (User.IsInRole("ProjectManager") || User.IsInRole("Administrator")
+    && Model.Status == Out_of_Office.Domain.Entities.ProjectStatus.Active)
     {
         <a asp-action="AssignEmployee" asp-route-id="@Model.ID" class="btn btn-secondary">Assign Employee</a>
     }
