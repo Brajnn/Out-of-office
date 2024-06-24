@@ -26,7 +26,7 @@ namespace Out_of_Office.Controllers
         {
             _mediator = mediator;
         }
-        public async Task<IActionResult> Index(string sortOrder, string searchString)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string positionFilter)
         {
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
@@ -34,6 +34,7 @@ namespace Out_of_Office.Controllers
 
 
             ViewBag.CurrentFilter = searchString;
+            ViewBag.CurrentPositionFilter = positionFilter;
 
             var employees = await _mediator.Send(new GetAllEmployeesQuery());
 
@@ -41,7 +42,10 @@ namespace Out_of_Office.Controllers
             {
                 employees = employees.Where(e => e.FullName.Contains(searchString, StringComparison.OrdinalIgnoreCase)).ToList();
             }
-
+            if (!String.IsNullOrEmpty(positionFilter))
+            {
+                employees = employees.Where(e => e.Position == positionFilter).ToList();
+            }
             employees = sortOrder switch
             {             
                 "Name" => employees.OrderBy(e => e.FullName).ToList(),
@@ -50,7 +54,7 @@ namespace Out_of_Office.Controllers
                 "position_desc" => employees.OrderByDescending(e => e.Position).ToList(),   
                 _=>employees
             };
-
+            ViewBag.Positions = new SelectList(new[] { "HR Manager", "Project Manager", "Employee" });
             return View(employees);
         }
 

@@ -11,14 +11,21 @@
 <h2>Approval Requests</h2>
 
 
-<p>
+
     @using (Html.BeginForm("Index", "ApprovalRequest", FormMethod.Get))
-    {
-        <label for="SearchRequestId">Search by Leave Request Number:</label>
-        <input type="text" id="SearchRequestId" name="SearchRequestId" value="@ViewData["SearchRequestId"]" />
-        <input type="submit" value="Search" />
+{
+    <p>
+        <label for="searchRequestId">Search by Request Number:</label>
+        <input type="number" id="searchRequestId" name="searchRequestId" value="@ViewData["SearchRequestId"]" />
+    </p>
+    <p>
+        <label for="statusFilter">Filter by Status:</label>
+        @Html.DropDownList("statusFilter", (SelectList)ViewBag.Statuses, "All Statuses", new { @id = "statusFilter" })
+
+        <input type="submit" value="Filter" class="btn btn-primary ml-2" />
+    </p>
     }
-</p>
+
 
 <table class="table">
     <thead>

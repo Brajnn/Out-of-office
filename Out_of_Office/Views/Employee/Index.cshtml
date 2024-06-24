@@ -6,8 +6,14 @@
     @using (Html.BeginForm("Index", "Employee", FormMethod.Get))
     {
     <p>
-        Find by name: @Html.TextBox("searchString", ViewBag.CurrentFilter as string)
-        <input type="submit" value="Search" />
+        <label for="searchString">Search by Name:</label>
+        <input type="text" name="searchString" id="searchString" value="@ViewBag.CurrentFilter" />
+    </p>
+    <p>
+        <label for="positionFilter">Filter by Position:</label>
+            @Html.DropDownList("positionFilter", (SelectList)ViewBag.Positions, "All Positions", new { @id = "positionFilter" })
+    
+        <input type="submit" value="Search" class="btn btn-primary ml-2" />
     </p>
 
     }

@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Out_of_Office.Application.Approval_Request.Command.CreateApprovalRequest;
 using Out_of_Office.Application.Approval_Request.Command.UpdateApprovalRequestStatus;
 using Out_of_Office.Application.Approval_Request.Query.GetAllApprovalRequestQuery;
@@ -18,7 +19,7 @@ namespace Out_of_Office.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder)
+        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder, string statusFilter)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -32,7 +33,13 @@ namespace Out_of_Office.Controllers
                 approvalRequests = approvalRequests.Where(ar => ar.LeaveRequestID == searchRequestId.Value).ToList();
                 ViewData["SearchRequestId"] = searchRequestId.Value;
             }
-
+            if (!string.IsNullOrEmpty(statusFilter))
+            {
+                if (Enum.TryParse(statusFilter, out ApprovalStatus status))
+                {
+                    approvalRequests = approvalRequests.Where(ar => ar.Status == status).ToList();
+                }
+            }
             approvalRequests = sortOrder switch
             {
                 "id_desc" => approvalRequests.OrderByDescending(ar => ar.ID).ToList(),
@@ -42,7 +49,7 @@ namespace Out_of_Office.Controllers
                 "status_desc" => approvalRequests.OrderByDescending(ar => ar.Status).ToList(),
                 _ => approvalRequests.OrderBy(ar => ar.ID).ToList(),
             };
-
+            ViewBag.Statuses = new SelectList(Enum.GetNames(typeof(ApprovalStatus)));
             return View(approvalRequests);
         }
 
