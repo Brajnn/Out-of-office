@@ -15,7 +15,7 @@ namespace Out_of_Office.Infrastructure.Presistance
         {
 
         }
-
+        public DbSet<User> Users { get; set; }
         public DbSet<Employee> Employee { get; set; }
         public DbSet<Project> Project { get; set; }
         public DbSet<LeaveRequest> LeaveRequest { get; set; }
@@ -23,8 +23,13 @@ namespace Out_of_Office.Infrastructure.Presistance
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+            .HasOne(u => u.Employee)
+            .WithOne(e => e.User)
+            .HasForeignKey<User>(u => u.EmployeeId);
             modelBuilder.Entity<Employee>(entity =>
             {
+
                 entity.HasKey(e => e.Id);
 
                 entity.Property(e => e.FullName)

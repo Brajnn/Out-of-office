@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Out_of_Office.Infrastructure.Presistance;
 
@@ -11,9 +12,11 @@ using Out_of_Office.Infrastructure.Presistance;
 namespace Out_of_Office.Infrastructure.Migrations
 {
     [DbContext(typeof(Out_of_OfficeDbContext))]
-    partial class Out_of_OfficeDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240623105140_AddUserTable")]
+    partial class AddUserTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -181,10 +184,6 @@ namespace Out_of_Office.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("PasswordHash")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Role")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

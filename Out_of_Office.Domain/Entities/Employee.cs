@@ -23,6 +23,7 @@ namespace Out_of_Office.Domain.Entities
         public int OutOfOfficeBalance { get; set; }
 
         public byte[] Photo { get; set; }
+        public User User { get; set; }
     }
 
     public enum EmployeeStatus
