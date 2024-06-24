@@ -12,6 +12,7 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.2" />
+		<PackageReference Include="X.PagedList.Mvc.Core" Version="9.1.2" />
 	</ItemGroup>
 	<ItemGroup>
 		<ProjectReference Include="..\Out_of_Office.Application\Out_of_Office.Application.csproj" />

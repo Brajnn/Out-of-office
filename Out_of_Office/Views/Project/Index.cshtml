@@ -1,5 +1,6 @@
-﻿@model IEnumerable<Out_of_Office.Application.Project.ProjectDto>
-
+﻿@model X.PagedList.IPagedList<Out_of_Office.Application.Project.ProjectDto>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Fluent
 @{
     ViewData["Title"] = "Projects";
 }
@@ -65,3 +66,25 @@
         }
     </tbody>
 </table>
+
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { pageNumber = page, sortOrder = ViewBag.CurrentSort, searchProjectId = ViewData["SearchProjectId"] }), new PagedListRenderOptions
+{
+    Display = PagedListDisplayMode.IfNeeded,
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    EllipsesFormat = "…",
+    LinkToFirstPageFormat = "First",
+    LinkToPreviousPageFormat = "Previous",
+    LinkToNextPageFormat = "Next",
+    LinkToLastPageFormat = "Last",
+    ContainerDivClasses = new[] { "pagination-container" },
+    UlElementClasses = new[] { "pagination", "justify-content-center" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" }
+})
+</div>

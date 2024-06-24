@@ -37,7 +37,10 @@
         <tr>
             <th>ID</th>
             <th>Full Name</th>
+            @if (User.IsInRole("ProjectManager") || User.IsInRole("Administrator"))
+    {
             <th>Actions</th>
+    }
         </tr>
     </thead>
     <tbody>

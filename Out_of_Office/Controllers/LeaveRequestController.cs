@@ -10,6 +10,7 @@ using System.Security.Claims;
 using Microsoft.Extensions.Logging;
 using Out_of_Office.Application.Leave_Request.Command.CreateLeaveRequestCommand;
 using Out_of_Office.Application.Leave_Request.Command.UpdateLeaveRequestStatus;
+using X.PagedList;
 
 namespace Out_of_Office.Controllers
 {
@@ -28,7 +29,7 @@ namespace Out_of_Office.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder)
+        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder, int? pageNumber)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -65,7 +66,12 @@ namespace Out_of_Office.Controllers
                 _ => leaveRequests.OrderBy(lr => lr.ID).ToList(), 
             };
 
-            return View(leaveRequests);
+            int pageSize = 10;
+            int pageIndex = pageNumber ?? 1;
+
+            var pagedList = leaveRequests.ToPagedList(pageIndex, pageSize);
+
+            return View(pagedList);
         }
 
         [HttpGet]

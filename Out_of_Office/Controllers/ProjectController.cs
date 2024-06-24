@@ -12,6 +12,7 @@ using Out_of_Office.Application.Project.Query.GetProjectById;
 using Out_of_Office.Domain.Entities;
 using Out_of_Office.Domain.Interfaces;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace Out_of_Office.Controllers
 {
@@ -29,7 +30,7 @@ namespace Out_of_Office.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? searchProjectId, string sortOrder)
+        public async Task<IActionResult> Index(int? searchProjectId, string sortOrder, int? pageNumber)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -65,7 +66,12 @@ namespace Out_of_Office.Controllers
                 _ => projects.OrderBy(p => p.ID).ToList(),
             };
 
-            return View(projects);
+            int pageSize = 10;
+            int pageIndex = pageNumber ?? 1;
+
+            var pagedList = projects.ToPagedList(pageIndex, pageSize);
+
+            return View(pagedList);
         }
 
         [HttpGet]
@@ -129,12 +135,12 @@ namespace Out_of_Office.Controllers
         {
             var project = await _mediator.Send(new GetProjectByIdQuery { Id = id });
             var employees = await _mediator.Send(new GetAllEmployeesQuery());
-
+            var activeEmployees = employees.Where(e => e.Status == "Active").ToList();
             var viewModel = new AssignProjectViewModel
             {
                 ProjectId = id,
                 Project = project,
-                Employees = employees.ToList()
+                Employees = activeEmployees
             };
 
             return View(viewModel);
@@ -149,7 +155,8 @@ namespace Out_of_Office.Controllers
                 var command = new AssignEmployeeCommand
                 {
                     ProjectId = viewModel.ProjectId,
-                    EmployeeId = viewModel.SelectedEmployeeId
+                    EmployeeId = viewModel.SelectedEmployeeId,
+
                 };
 
                 System.Diagnostics.Debug.WriteLine($"ProjectId: {command.ProjectId}, EmployeeId: {command.EmployeeId}");

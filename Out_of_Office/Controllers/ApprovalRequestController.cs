@@ -6,6 +6,7 @@ using Out_of_Office.Application.Approval_Request.Command.UpdateApprovalRequestSt
 using Out_of_Office.Application.Approval_Request.Query.GetAllApprovalRequestQuery;
 using Out_of_Office.Application.Approval_Request.Query.GetApprovalRequestByIdQuery;
 using Out_of_Office.Domain.Entities;
+using X.PagedList;
 
 namespace Out_of_Office.Controllers
 {
@@ -19,7 +20,7 @@ namespace Out_of_Office.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder, string statusFilter)
+        public async Task<IActionResult> Index(int? searchRequestId, string sortOrder, string statusFilter, int? pageNumber)
         {
             ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = string.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
@@ -50,7 +51,11 @@ namespace Out_of_Office.Controllers
                 _ => approvalRequests.OrderBy(ar => ar.ID).ToList(),
             };
             ViewBag.Statuses = new SelectList(Enum.GetNames(typeof(ApprovalStatus)));
-            return View(approvalRequests);
+            int pageSize = 10;
+            int pageIndex = pageNumber ?? 1;
+
+            var pagedList = approvalRequests.ToPagedList(pageIndex, pageSize);
+            return View(pagedList);
         }
 
         [HttpGet]

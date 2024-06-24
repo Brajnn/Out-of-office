@@ -15,6 +15,7 @@ using Out_of_Office.Application.Project.Query.GetAllProjectsQuery;
 using Out_of_Office.Domain.Interfaces;
 using Out_of_Office.Infrastructure.Presistance;
 using System.Security.Claims;
+using X.PagedList;
 namespace Out_of_Office.Controllers
 {
     [Authorize(Roles = "HRManager,ProjectManager,Administrator")]
@@ -26,8 +27,9 @@ namespace Out_of_Office.Controllers
         {
             _mediator = mediator;
         }
-        public async Task<IActionResult> Index(string sortOrder, string searchString, string positionFilter)
+        public async Task<IActionResult> Index(string sortOrder, string searchString, string positionFilter, int? pageNumber)
         {
+            ViewBag.CurrentSort = sortOrder;
             ViewBag.IdSortParm = String.IsNullOrEmpty(sortOrder) ? "id_desc" : "";
             ViewBag.NameSortParm = sortOrder == "Name" ? "name_desc" : "Name";
             ViewBag.PositionSortParm = sortOrder == "Position" ? "position_desc" : "Position";
@@ -54,8 +56,10 @@ namespace Out_of_Office.Controllers
                 "position_desc" => employees.OrderByDescending(e => e.Position).ToList(),   
                 _=>employees
             };
+            int pageSize = 10;
+            int pageIndex = pageNumber ?? 1;
             ViewBag.Positions = new SelectList(new[] { "HR Manager", "Project Manager", "Employee" });
-            return View(employees);
+            return View(employees.ToPagedList(pageIndex, pageSize));
         }
 
         [HttpGet]

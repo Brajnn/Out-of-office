@@ -1,5 +1,6 @@
-﻿@model List<Out_of_Office.Application.Employee.EmployeeDto>
-
+﻿@model X.PagedList.IPagedList<Out_of_Office.Application.Employee.EmployeeDto>
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Mvc.Core.Fluent
 <h2>Employees</h2>
 
 <p>
@@ -32,7 +33,7 @@
             <th>
                 @Html.ActionLink("Position", "Index", new { sortOrder = ViewBag.PositionSortParm, searchString = ViewBag.CurrentFilter })
             </th>
-
+            <th>Actions</th>
         </tr>
     </thead>
     <tbody>
@@ -41,6 +42,7 @@
             <tr>
                 <td>@employee.FullName</td>
                 <td>@employee.Position</td>
+                
 
                 <td>
                     @if (User.IsInRole("HRManager") || User.IsInRole("Administrator"))
@@ -63,3 +65,25 @@
         }
     </tbody>
 </table>
+
+<div class="text-center">
+    @Html.PagedListPager(Model, page => Url.Action("Index", new { pageNumber = page, sortOrder = ViewBag.CurrentSort, searchString = ViewBag.CurrentFilter, positionFilter = ViewBag.CurrentPositionFilter }), new PagedListRenderOptions
+{
+    Display = PagedListDisplayMode.IfNeeded,
+    MaximumPageNumbersToDisplay = 5,
+    DisplayLinkToFirstPage = PagedListDisplayMode.Always,
+    DisplayLinkToLastPage = PagedListDisplayMode.Always,
+    DisplayLinkToPreviousPage = PagedListDisplayMode.Always,
+    DisplayLinkToNextPage = PagedListDisplayMode.Always,
+    DisplayLinkToIndividualPages = true,
+    EllipsesFormat = "…",
+    LinkToFirstPageFormat = "First",
+    LinkToPreviousPageFormat = "Previous",
+    LinkToNextPageFormat = "Next",
+    LinkToLastPageFormat = "Last",
+    ContainerDivClasses = new[] { "pagination-container" },
+    UlElementClasses = new[] { "pagination", "justify-content-center" },
+    LiElementClasses = new[] { "page-item" },
+    PageClasses = new[] { "page-link" }
+})
+</div>

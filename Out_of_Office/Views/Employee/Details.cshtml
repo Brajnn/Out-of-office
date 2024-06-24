@@ -36,9 +36,12 @@
 </div>
 @if (User.IsInRole("Project Manager") || User.IsInRole("Administrator"))
 {
-    <div>
-    <a asp-action="AssignProject" asp-route-employeeId="@Model.Id" class="btn btn-primary">Assign to Projects</a>
-    </div>
+    @if (Model.Status == "Active")
+    {
+        <div>
+            <a asp-action="AssignProject" asp-route-employeeId="@Model.Id" class="btn btn-primary">Assign to Projects</a>
+        </div>
+    }
 }
 <div>
     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
