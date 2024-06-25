@@ -24,7 +24,7 @@ The solution contains the following main directories:
   - Filter table rows.
   - Search by name.
   - Add, update, and deactivate employees.
-![Employee](https://github.com/Brajnn/Out-of-Office/assets/120382137/246b28b7-5665-4785-967d-7cc355a1c242)
+  ![Employee](https://github.com/Brajnn/Out-of-Office/assets/120382137/246b28b7-5665-4785-967d-7cc355a1c242)
 
 ## Leave Request
 
@@ -52,11 +52,12 @@ The solution contains the following main directories:
   - Sort table rows using column headers.
   - Filter table rows.
   - Search by request number.
-  - View Details
+  - View Details.
+    
     ![ApprovalDetails](https://github.com/Brajnn/Out-of-Office/assets/120382137/7c48e2bb-7624-4235-b755-f853b405cc8c)
   - Approve or reject requests, updating the leave request status accordingly.
     ![AfterApprove](https://github.com/Brajnn/Out-of-Office/assets/120382137/5ec46468-b08b-447f-a689-6e4c26670bdb)
-  - After Approval Request Out of Office Balace is changed
+  - After Approval Request Out of Office Balace is changed.
     ![BalanceChanged](https://github.com/Brajnn/Out-of-Office/assets/120382137/98fb0f1a-dfd8-4001-8fcb-419886d3035c)
 
 ## Project
